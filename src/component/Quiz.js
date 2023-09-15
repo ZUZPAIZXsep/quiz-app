@@ -6,7 +6,7 @@ const Quiz = ()=>{
     //console.log(QuestionsData);
     const [current, setCurrent] = useState(0)
     const [selectChoice, setSelectChoice] = useState("")
-    const {score,setScore} = useContext(DataContext)
+    const {score,setScore,setAppState} = useContext(DataContext)
 
     useEffect(()=>{
         checkAnswer()
@@ -16,12 +16,21 @@ const Quiz = ()=>{
         if(selectChoice!==""){
             if(selectChoice===QuestionsData[current].answer){
                 setScore(score+1)
+                nextQuestion()
             }else{
-                console.log("ตอบผิดไม่ได้คะแนน T_T")
+                nextQuestion()
             }
         }
     }
 
+    const nextQuestion=()=>{
+        setSelectChoice("")
+        if(current===QuestionsData.length-1){
+            setAppState("score")
+        }else{
+            setCurrent(current+1)
+        }
+    }
 
     return(
         <div className="quiz">
